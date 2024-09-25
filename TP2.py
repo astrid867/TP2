@@ -23,10 +23,10 @@ for row in curs:  #On parcourt toutes les lignes du fichier csv ouvert
     title = row[0]
     author = row[1]
     date = row[2]
-    val = (title,author,date)   #On choisit un tuple pour représenter la value car on ne va pas changer ces informations
+    val = {"titre":title, "auteur":author, "date_parution":date}   #On choisit un dict pour représenter la value car on veut y accéder en faisant ["tire"] par exemple
     bibliotheque[key] = val
 
-#bibliotheque.pop("cote_rangement")  #On enlève la première clé qui était "cote_rangement" : (titre,auteur,date)
+bibliotheque.pop("cote_rangement")  #On enlève la première clé qui était "cote_rangement" : (titre,auteur,date)
 
 print(f' \n Bibliotheque initiale : {bibliotheque} \n')
 
@@ -55,14 +55,13 @@ for row in curs:  #On parcourt toutes les lignes du fichier csv ouvert
     
     if key != "cote_rangement" :
         if key not in bibliotheque.keys():
-            val = (title,author,date)   #On choisit un tuple pour représenter la value car on ne va pas changer ces informations
+            val = {"titre":title, "auteur":author, "date_parution":date}
             bibliotheque[key] = val
-            #print(f"Le livre {key} ---- {title} par {author} ---- a été ajouté avec succès")
+            print(f"Le livre {key} ---- {title} par {author} ---- a été ajouté avec succès")
         else:
-            pass
-            #print(f"Le livre {key} ---- {title} par {author} ---- est déjà présent dans la bibliothèque")
+            print(f"Le livre {key} ---- {title} par {author} ---- est déjà présent dans la bibliothèque")
 
-#print(f' \n Bibliotheque mise à jour : {bibliotheque} \n')
+print(f' \n Bibliotheque mise à jour : {bibliotheque} \n')
 
 #Fermeture du fichier après traitement
 csvfile.close()
@@ -76,22 +75,15 @@ csvfile.close()
 # PARTIE 3 : Modification de la cote de rangement d'une sélection de livres
 ########################################################################################################## 
 
-# for k in bibliotheque.keys():
-#     if k[0] == "S":
-#         val = bibliotheque[k]
-#         new_k = "WS"+k[1:]                     #on peut pas faire ça car on change les clés pendant l'itération....
-#         bibliotheque.pop(k)
-#         bibliotheque[new_k]=val
-
 S = []  #Liste qui va contenir toutes les clés qui ont pour auteur Shakespeare de bibliotheque
 for (k,v) in bibliotheque.items():
-    if v[1]=="William Shakespeare":
-        S.append(k)    #on parcourt tous le dictionnaire pour récupérer toutes les clés commençant par "S"
+    if v["auteur"]=="William Shakespeare":
+        S.append(k)    #on parcourt tous le dictionnaire pour récupérer toutes les clés qui correspondent à un livre de W.S.
 
-if len(S)!=0:    #Si la liste S n'est pas vide : s'il existe des clés commençant par "S"
+if len(S)!=0:    #Si la liste S n'est pas vide : s'il existe des clés correspondant a un livre de W.S
     for k in S:
         val = bibliotheque[k]
-        new_k = "WS"+k[1:]                     #on peut pas faire ça car on change les clés pendant l'itération....
+        new_k = "WS"+k[1:]    #On met "WS" à la place de "S" avant les chiffres de la cote
         bibliotheque.pop(k)
         bibliotheque[new_k]=val
 else:
