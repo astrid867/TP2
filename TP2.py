@@ -12,6 +12,8 @@ Noms et matricules : Portapia (2404203), Fortas_Rym (2385101)
 
 import csv
 
+print("-----------------PARTIE 1----------------------")
+
 #Ouverture du fichier
 csvfile = open('collection_bibliotheque.csv', newline='')
 #Positionnement du curseur de lecture au début du fichier
@@ -45,6 +47,8 @@ csvfile = open('nouvelle_collection.csv', newline='')
 #Positionnement du curseur de lecture au début du fichier
 curs = csv.reader(csvfile)
 
+print("-----------------PARTIE 2----------------------")
+
 for row in curs:  #On parcourt toutes les lignes du fichier csv ouvert
     key = row[3]
     title = row[0]
@@ -72,6 +76,8 @@ csvfile.close()
 # ########################################################################################################## 
 # # PARTIE 3 : Modification de la cote de rangement d'une sélection de livres
 # ########################################################################################################## 
+
+print("-----------------PARTIE 3----------------------")
 
 S = []  #Liste qui va contenir toutes les clés qui ont pour auteur Shakespeare de bibliotheque
 for (k,v) in bibliotheque.items():
@@ -103,15 +109,17 @@ import csv
 csvfile_3 = open('emprunts.csv', newline='')
 h = csv.reader(csvfile_3)
 
-livres_emprintees = {}
-for row in h :
+print("-----------------PARTIE 4----------------------")
+
+livres_empruntes = {}
+for row in h :                   #On crée un dictionnaire avec que les livres empruntés
     date_emprunt= row[1]
     cote_rangement= row[0]
-    livres_emprintees[cote_rangement] = date_emprunt
+    livres_empruntes[cote_rangement] = date_emprunt
 
-for (key, valeur) in bibliotheque.items():
-    for (key_1, valeur_1)in livres_emprintees.items(): 
-        if key == key_1:
+for (key, valeur) in bibliotheque.items():  #Pour chaque livre de la bibibliotheque
+    for (key_1, valeur_1)in livres_empruntes.items():   #On va regarder s'il est emprunté
+        if key == key_1:    #Si la cote du livre est dans livres_empruntes, on rajoute les clés "emprunt" et date_emprunt" a la valeur associéeau livre dans bibliotheque
             valeur['emprunt'] = "emprunté"
             valeur["date_emprunt"] = valeur_1
             break
@@ -131,21 +139,30 @@ durée_emprunt_max = 30
 frais_retard = 2
 frais_max = 100
 
+print("-----------------PARTIE 5----------------------")
+
 for (key, valeur) in bibliotheque.items():
     if valeur['emprunt'] == "emprunté":
-        durée_emprunt = datetime.date.today() - datetime.datetime.strptime(valeur["date_emprunt"], "%Y-%m-%d").date()
+        valeur['livre perdu']= False
+        valeur['Frais_retard'] = 0
+        durée_emprunt = datetime.date.today() - datetime.datetime.strptime(valeur["date_emprunt"], "%Y-%m-%d").date()  #On récupère le nombre de jours entre le jour meeme
         jours_retard= (durée_emprunt - datetime.timedelta(days=30)).days
-        valeur['Frais_retard'] = ""
-        if jours_retard <=50 and jours_retard > 0:
-            valeur['Frais_retard'] = int(jours_retard) * 2
-            print (f'livre en retard {key}')
-        elif jours_retard <= 0:
-            valeur['Frais_retard'] = 0
-        elif jours_retard > 365:
-            valeur['livre perdus']= True
+        if jours_retard > 0:
+            if jours_retard*2 < frais_max:
+                valeur['Frais_retard'] = int(jours_retard) * frais_retard
+            else:
+                valeur['Frais_retard'] = frais_max
+        if jours_retard > 365:
+            valeur['livre perdu']= True
+            
 print(f' \n Bibliotheque avec ajout des retards et frais : {bibliotheque} \n')
 
-    
+for k,v in bibliotheque.items():
+    if v["emprunt"]=="emprunté":     #on ne regarde que les livres qui sont empruntés
+        if v["Frais_retard"]>0 and not v["livre perdu"]:      #si en retard et pas perdu
+            print(f"Le livre \'{v['titre']}\' est emprunté et a ${v['Frais_retard']} de frais de retard")
+        elif v["livre perdu"]:      #si perdu
+            print(f"ATTENTION : le livre \'{v['titre']}\' est perdu !")
 
 
 
