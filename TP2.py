@@ -98,8 +98,7 @@ print(f' \n Bibliotheque avec modifications de cote : {bibliotheque} \n')
 # # PARTIE 4 : Emprunts et retours de livres
 # ########################################################################################################## 
 
-# # TODO : Écrire votre code ici
-
+ # TODO : Écrire votre code ici
 import csv
 csvfile_3 = open('emprunts.csv', newline='')
 h = csv.reader(csvfile_3)
@@ -125,7 +124,7 @@ print(f' \n Bibliotheque avec ajout des emprunts : {bibliotheque} \n')
 # # PARTIE 5 : Livres en retard 
 # ########################################################################################################## 
 
-# # TODO : Écrire votre code ici
+# TODO : Écrire votre code ici
 
 import datetime
 durée_emprunt_max = 30
@@ -145,6 +144,7 @@ for (key, valeur) in bibliotheque.items():
         elif jours_retard > 365:
             valeur['livre perdus']= True
 print(f' \n Bibliotheque avec ajout des retards et frais : {bibliotheque} \n')
+
     
 
 
