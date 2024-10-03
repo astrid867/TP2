@@ -36,8 +36,6 @@ csvfile.close()
 
 
 
-
-
 ########################################################################################################## 
 # PARTIE 2 : Ajout d'une nouvelle collection à la bibliothèque
 ########################################################################################################## 
@@ -71,9 +69,9 @@ csvfile.close()
 
 
 
-########################################################################################################## 
-# PARTIE 3 : Modification de la cote de rangement d'une sélection de livres
-########################################################################################################## 
+# ########################################################################################################## 
+# # PARTIE 3 : Modification de la cote de rangement d'une sélection de livres
+# ########################################################################################################## 
 
 S = []  #Liste qui va contenir toutes les clés qui ont pour auteur Shakespeare de bibliotheque
 for (k,v) in bibliotheque.items():
@@ -96,25 +94,58 @@ print(f' \n Bibliotheque avec modifications de cote : {bibliotheque} \n')
 
 
 
-########################################################################################################## 
-# PARTIE 4 : Emprunts et retours de livres
-########################################################################################################## 
+# ########################################################################################################## 
+# # PARTIE 4 : Emprunts et retours de livres
+# ########################################################################################################## 
 
-# TODO : Écrire votre code ici
+# # TODO : Écrire votre code ici
+
+import csv
+csvfile_3 = open('emprunts.csv', newline='')
+h = csv.reader(csvfile_3)
+
+livres_emprintees = {}
+for row in h :
+    date_emprunt= row[1]
+    cote_rangement= row[0]
+    livres_emprintees[cote_rangement] = date_emprunt
+
+for (key, valeur) in bibliotheque.items():
+    for (key_1, valeur_1)in livres_emprintees.items(): 
+        if key == key_1:
+            valeur['emprunt'] = "emprunté"
+            valeur["date_emprunt"] = valeur_1
+            break
+        else:
+             valeur['emprunt'] = "disponible"
+print(f' \n Bibliotheque avec ajout des emprunts : {bibliotheque} \n')
 
 
+# ########################################################################################################## 
+# # PARTIE 5 : Livres en retard 
+# ########################################################################################################## 
 
+# # TODO : Écrire votre code ici
 
+import datetime
+durée_emprunt_max = 30
+frais_retard = 2
+frais_max = 100
 
-
-
-########################################################################################################## 
-# PARTIE 5 : Livres en retard 
-########################################################################################################## 
-
-# TODO : Écrire votre code ici
-
-
+for (key, valeur) in bibliotheque.items():
+    if valeur['emprunt'] == "emprunté":
+        durée_emprunt = datetime.date.today() - datetime.datetime.strptime(valeur["date_emprunt"], "%Y-%m-%d").date()
+        jours_retard= (durée_emprunt - datetime.timedelta(days=30)).days
+        valeur['Frais_retard'] = ""
+        if jours_retard <=50 and jours_retard > 0:
+            valeur['Frais_retard'] = int(jours_retard) * 2
+            print (f'livre en retard {key}')
+        elif jours_retard <= 0:
+            valeur['Frais_retard'] = 0
+        elif jours_retard > 365:
+            valeur['livre perdus']= True
+print(f' \n Bibliotheque avec ajout des retards et frais : {bibliotheque} \n')
+    
 
 
 
