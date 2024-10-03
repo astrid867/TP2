@@ -3,7 +3,7 @@ TP2 : Système de gestion de livres pour une bibliothèque
 
 Groupe de laboratoire : 06
 Numéro d'équipe :  06
-Noms et matricules : Portapia (2404203), Nom2 (Matricule2)
+Noms et matricules : Portapia (2404203), Fortas_Rym (2385101)
 """
 
 ########################################################################################################## 
