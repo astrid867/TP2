@@ -3,7 +3,7 @@ TP2 : Système de gestion de livres pour une bibliothèque
 
 Groupe de laboratoire : 06
 Numéro d'équipe :  06
-Noms et matricules : Portapia (2404203), Fortas_Rym (2385101)
+Noms et matricules : Portapia Astrid (2404203), Fortas_Rym (2385101)
 """
 
 ########################################################################################################## 
@@ -152,7 +152,7 @@ for (key, valeur) in bibliotheque.items():
                 valeur['Frais_retard'] = int(jours_retard) * frais_retard
             else:
                 valeur['Frais_retard'] = frais_max
-        if jours_retard > 365:
+        if jours_retard > 335:         #Livre perdu un an après la date d'emprunt, donc quand il y a plus de 335 jours de retard
             valeur['livre perdu']= True
             
 print(f' \n Bibliotheque avec ajout des retards et frais : {bibliotheque} \n')
